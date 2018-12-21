@@ -1,0 +1,26 @@
+{
+  "name": "spmanager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "spManagerExample.js",
+  "scripts": {
+    "test": "node spManagerExample.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JohannesNegron/spManagerLib.git"
+  },
+  "keywords": [
+    "sprestlib"
+  ],
+  "author": "jnegron@soldai.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JohannesNegron/spManagerLib/issues"
+  },
+  "homepage": "https://github.com/JohannesNegron/spManagerLib#readme",
+  "dependencies": {
+    "sprestlib": "^1.9.0",
+    "xmldom": "^0.1.27"
+  }
+}
