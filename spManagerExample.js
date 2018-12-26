@@ -7,7 +7,10 @@ var spDB = new spDBmanager('soldai@grupoguia1.onmicrosoft.com', 'Hud52154', 'htt
 
 
 console.log("-----------")
-
+var params = {
+    "ESTATUS": "TERMINADO",
+    "ID" : 132
+}
 /*
 Ejemplo para pedir la informacion del usuario
 */
@@ -21,7 +24,10 @@ spDB.userinfo().then((data)=>
 Ejemplo para consultas
 */
 
-spDB.consult('DESARROLLO', "ESTATUS eq \"TERMINADO\" and ID gt 132").then((data)=>
+
+spDB.consult('DESARROLLO', params).then((data)=>
 {
     console.log(data)
 })
+
+//spDB.json2String(params)

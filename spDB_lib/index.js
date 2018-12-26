@@ -3,6 +3,15 @@ var fs = require('fs');
 var https = require('https'); // this Library is the basis for the remote auth solution
 var CONTS = require('./utils');
 
+var APP_FILTEROPS = {
+    "eq" : "==",
+    "ne" : "!=",
+    "gt" : ">",
+    "gte": ">=",
+    "lt" : "<",
+    "lte": "<="
+};
+
 class spDB_lib
 {
     constructor(user, pass, url_db, site)
@@ -112,13 +121,42 @@ class spDB_lib
     }
     
     
-    consult(database_name, condition="")
+    consult(database_name, condition)
     {
-        return this.auth().then((data)=>
+        return new Promise((resolve, reject)=>
         {
-            //console.log(data.list(database_name).getItems()).filter("ID eq 132")
-            return data.list(database_name).items({queryFilter:condition})
+            this.auth().then((data)=>
+            {
+                //console.log(data.list(database_name).getItems()).filter("ID eq 132")
+                this.json2String(condition).then((queryString)=>
+                {
+                    console.log(queryString)
+                    resolve(data.list(database_name).items({queryFilter:queryString}))
+                })
+            })
         })
+    }
+    json2String(params)
+    {
+        let queryString = "";
+        return new Promise((resolve, reject)=>
+        {
+            for(var key in params)
+            {
+                queryString += key + " eq "
+                
+                if(typeof(params[key]) == 'string')
+                {
+                    queryString += "\""+params[key]+"\""
+                }
+                else
+                {
+                    queryString += params[key]
+                }
+                queryString += " and "
+            }
+            resolve(queryString.substring(0,queryString.length-4))
+        });
     }
     
 }
