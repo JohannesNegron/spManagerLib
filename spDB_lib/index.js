@@ -4,12 +4,12 @@ var https = require('https'); // this Library is the basis for the remote auth s
 var CONTS = require('./utils');
 
 var APP_FILTEROPS = {
-    "eq" : "==",
-    "ne" : "!=",
-    "gt" : ">",
-    "gte": ">=",
-    "lt" : "<",
-    "lte": "<="
+    "==" : "eq",
+    "!=" : "ne",
+    ">"  : "gt",
+    ">=" : "ge",
+    "<"  : "lt",
+    "<=" : "le"
 };
 
 class spDB_lib
@@ -136,26 +136,28 @@ class spDB_lib
             })
         })
     }
-    json2String(params)
+    json2String(list)
     {
         let queryString = "";
         return new Promise((resolve, reject)=>
         {
-            for(var key in params)
+            for(var i in list)
             {
-                queryString += key + " eq "
+                queryString += list[i]['key'] + " " + APP_FILTEROPS[list[i]['op']] + " "
                 
-                if(typeof(params[key]) == 'string')
+                if(typeof(list[i]['value']) == 'string')
                 {
-                    queryString += "\""+params[key]+"\""
+                    queryString += "\""+list[i]['value']+"\""
                 }
                 else
                 {
-                    queryString += params[key]
+                    queryString += list[i]['value']
                 }
                 queryString += " and "
+                
             }
-            resolve(queryString.substring(0,queryString.length-4))
+            resolve(queryString.substring(0,queryString.length-5))
+            //resolve()
         });
     }
     
